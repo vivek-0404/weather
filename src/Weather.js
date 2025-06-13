@@ -22,14 +22,15 @@ function Weather() {
 
     setLoading(true);
     setError(null);
-    try {
-      const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  try {
+      const apiKey = "5f114b623b2c42d49c3102625230807";
       const response = await axios.get(
-        `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`
+        https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=no&alerts=no
       );
       setData(response.data);
+      updateBackground(response.data.current.condition.text);
     } catch (err) {
-      setError("City not found. Please try another location.");
+      setError("Failed to fetch weather data. Please try another location.");
       console.error(err);
     } finally {
       setLoading(false);
