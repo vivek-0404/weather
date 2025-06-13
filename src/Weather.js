@@ -22,13 +22,21 @@ function Weather() {
 
     setLoading(true);
     setError(null);
-  try {
+    setData(null);
+
+    try {
       const apiKey = "5f114b623b2c42d49c3102625230807";
       const response = await axios.get(
-        https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=no&alerts=no
+        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=no&alerts=no`
       );
+
+      if (response.data.error) {
+        setError(response.data.error.message || "City not found.");
+        return;
+      }
+
       setData(response.data);
-      updateBackground(response.data.current.condition.text);
+      // updateBackground(response.data.current.condition.text); // Only if you have this function
     } catch (err) {
       setError("Failed to fetch weather data. Please try another location.");
       console.error(err);
